@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore - Home</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .genre-filter {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+        .book-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .book-card:hover {
+            transform: scale(1.05);
+        }
+        .book-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .book-card-body {
+            padding: 15px;
+            flex-grow: 1;
+        }
+        .book-card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .book-card-author {
+            color: #777;
+            margin-bottom: 10px;
+        }
+        .book-card-description {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .book-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .footer {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        /* Navbar Styling */
+        .navbar {
+            background-color: #007bff;
+            padding: 10px 20px;
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            font-size: 1.1rem;
+            margin-right: 20px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #0056b3;
+        }
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+        .genre-filter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }   
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/">Bookstore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to the Bookstore</h1>
+
+        <form method="get" action="/" class="genre-filter form-inline">
+            <label class="mr-2">Filter by Genre:</label>
+            <select name="genre" class="form-control mr-2">
+                <option value="">All</option>
+                {% for genre in genres %}
+                    <option value="{{ genre }}">{{ genre }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-custom">Filter</button>
+        </form>
+        
+
+        <!-- Book List -->
+        <div class="book-list">
+            {% for book in books %}
+                <div class="col-md-3 mb-4">
+                    <div class="book-card">
+                        <img src="{{ book['image_url'] }}" alt="{{ book['title'] }}">
+                        <div class="book-card-body">
+                            <h5 class="book-card-title">{{ book['title'] }}</h5>
+                            <p class="book-card-author">by {{ book['author'] }}</p>
+                            <p class="book-card-description">{{ book['description'][:100] }}...</p>
+                            <a href="{{ url_for('book_detail', book_id=book['id']) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                            <form action="{{ url_for('add_to_cart', book_id=book['id']) }}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-custom btn-sm">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Thank you for visiting our bookstore. <a href="/about">Learn more about us</a></p>
+    </div>
+
+    <!-- Bootstrap JS (Optional for added components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta chaRs et="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">  
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5c6bc0;
+            margin-top: 30px;
+            font-size: 2rem;
+        }
+
+        .container {
+            background-color: #fff;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.1rem;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #5c6bc0;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #3f51b5;
+        }
+
+        .cancel-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1rem;
+        }
+
+        .cancel-link:hover {
+            color: #0056b3;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            padding: 10px 20px;
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            font-size: 1.1rem;
+            margin-right: 20px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #0056b3;
+        }
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/">Bookstore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Order Summary</h1>
+        <ul>
+            {% for book in cart_books %}
+                <li>
+                    <span>{{ book['title'] }}</span>
+                    <span>Rs {{ book['price'] }}</span> 
+                </li>
+            {% endfor %}
+        </ul>
+        <p class="total"><strong>Total:</strong> Rs  {{ '%.2f' % total }}</p> 
+
+        <form method="post">
+            <button type="submit" class="button">Place Order</button>
+        </form>
+
+        <a href="{{ url_for('index') }}" class="cancel-link">Cancel and Return to Home</a>
+    </div>
+
+</body>
+</html>
